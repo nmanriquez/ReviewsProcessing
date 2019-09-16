@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='pure-min.css') }}"/>
+    </head>
+    <body>
+        <div>
+            <b>Review Search -- {{products["numFound"]}} products, {{reviews["numFound"]}} reviews, 1 search type, and growing!</b>
+            <br/>
+            <br/>
+            <h2>Let's search!</h2>
+            <ul>
+                <li><a href="{{url_for('searchForm')}}">Review Search</a></li>
+            </ul>
+        </div>
+    </body>
+</html>
+

@@ -1,0 +1,36 @@
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pure-min.css') }}"/>
+</head>
+<body>
+    <h2>Review Details</h3>
+    
+    <table class="pure-table pure-table-bordered">
+      <tr>
+        <td>ID: </td>
+        <td>{{review["id"]}}</td>
+      </tr>
+      <tr>
+        <td>Product Name:</td>
+        <td>{{product["title"]}}</td>
+      </tr>
+      <tr>
+        <td>Reviewer Name:</td>
+        <td>{{review["reviewerName"]}}</td>
+      </tr>
+      <tr>
+        <td>Score:</th>
+        <td>{{review["overall"]}}</td>
+      </tr>
+      <tr>
+        <td>Summary:</th>
+        <td>{{review["summary"]}}</td>
+      </tr>
+      <tr>
+        <td>Body:</th>
+        <td>{{review["reviewText"]}}</td>
+      </tr>
+    </table>
+</body>
+
+</html>

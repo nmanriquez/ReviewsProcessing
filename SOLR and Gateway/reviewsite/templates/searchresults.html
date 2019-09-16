@@ -1,0 +1,95 @@
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pure-min.css') }}"/>
+</head>
+<body>
+    <h2>Review Search Results</h2>
+<!--     <p>keywords are {{keywords}}</p> -->
+    <table class="pure-table pure-table-bordered">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Score</th>
+                <th>Summary</th>
+                <th>Details</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in reviews %}
+            <tr>
+                <td><a href="{{url_for('productDetail', asin=review['asin'])}}">{{review['product'].get("title", "**NA**, ASIN:" + review['asin'])}}</a></td>
+                <td>{{review['overall']}}</td>
+                <td>{{review['summary']}}</td>
+                <td><a href="{{url_for('reviewDetail', id=review['id'])}}">Details</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <div> 
+        {% if page_info['numShown'] > 0%}
+            {% if (page_info['start']-10) < 0 %}
+            <a class="pure-button pure-button-disabled"> Previous</a>
+            {% else %}
+            <a class="pure-button" href="{{url_for('reviewResults', query=query, start=page_info['start']-10, facetValue=facetValue)}}">Previous</a></li>
+            {% endif%}
+
+            {% if page_info['start']+10 > page_info['numFound']%}
+            <a class="pure-button pure-button-disabled">Next</a>
+            {% else %}
+            <a class="pure-button" href="{{url_for('reviewResults', query=query, start=page_info['start']+10, facetValue=facetValue)}}">Next</a>
+            {% endif%}
+        {% endif%}
+        
+        {% if page_info['numShown'] == 0 %}
+            Showing {{page_info['start']}} - {{page_info['numShown'] + page_info['start']}} of {{page_info['numFound']}}
+        {% else %}
+            Showing {{page_info['start']+1}} - {{page_info['numShown'] + page_info['start']}} of {{page_info['numFound']}}
+        {% endif%}
+    </div>
+    <br>
+        
+    {% if page_info['numShown'] > 0%}
+    <table class="pure-table pure-table-bordered">
+        <tr><td colspan="3"><b>Faceting</b></td></tr>
+        <tr>
+            <td><b>Score</b></td>
+            <td><b>Count</b></td>
+            <td></td>
+        </tr>
+
+        {% for score, counts in facet_dict.items() | sort %}
+        <tr>
+            <td>{{score}}</td>
+            <td>{{counts}}</td>
+            <td><a href="{{url_for('reviewResults', query=query, start=0, facetValue=score)}}">View</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <br/>
+    <a href="{{url_for('searchForm')}}">New Search</a>
+    <br/><br/>
+    
+    {% if page_info['numShown'] == 0%}
+    <br>
+    <b>Spell Correction</b> <br/>
+    <ul>
+        {% if 'spellcheck' in page_info.keys() %}
+        <li>Search for <a href="{{url_for('reviewResults', query=page_info['spellcheck'], start=0)}}">{{page_info['spellcheck']}}</a> instead?</li>
+        {% else %}
+        <li>No suggestions found</li>
+        {% endif %}
+    </ul>
+    {% endif %}
+
+</body>
+
+</html>
+
+
+
+
+

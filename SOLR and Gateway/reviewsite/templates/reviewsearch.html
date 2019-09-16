@@ -1,0 +1,19 @@
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pure-min.css') }}"/>
+</head>
+<body>
+    <h2>Review Search Form</h2>
+        <form action="" method="post" class="pure-form">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.keywords.label }}<br>
+                {{ form.keywords(size=32) }}
+            </div><br>
+
+            <div>
+                {{ form.submit(class='pure-button') }}
+            </div>
+        </form>
+</body>
+</html>

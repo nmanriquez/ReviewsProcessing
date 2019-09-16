@@ -1,0 +1,40 @@
+<!-- {% for doc in docs%}
+    {{doc["description"]}}
+{% endfor%}
+ -->
+
+<html>
+<head>
+    <style> 
+    th {text-align: left;}
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='pure-min.css') }}"/>
+</head>
+<body>
+    <h2>Product Details</h3>
+    <table class="pure-table pure-table-bordered">
+      <tr>
+        <td>ASIN: </td>
+        <td>{{product["asin"]}}</td>
+      </tr>
+      <tr>
+        <td>Product Name:</td>
+        <td>{{product["title"]}}</td>
+      </tr>
+      <tr>
+        <td>Product Description:</td>
+        <td>{{product["description"]}}</td>
+      </tr>
+      <tr>
+        <td>Price:</th>
+        <td>${{product["price"]}}</td>
+      </tr>
+    </table>
+</body>
+
+</html>
+
+
+
+
+

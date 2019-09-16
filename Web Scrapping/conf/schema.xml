@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema name="amzn-reviews" version="1.6">
+  <uniqueKey>id</uniqueKey>
+  <fieldType name="uuid" class="solr.UUIDField" indexed="true"/>
+  <fieldType name="_nest_path_" class="solr.NestPathField" omitTermFreqAndPositions="true" omitNorms="true" maxCharsForDocValues="-1" stored="false"/>
+  <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
+  <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
+  <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
+  <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
+  <fieldType name="pint" class="solr.IntPointField" docValues="true"/>
+  <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
+  <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true"/>
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true"/>
+  <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
+    <analyzer type="index">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.EnglishPossessiveFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.EnglishPossessiveFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100" multiValued="true">
+      <analyzer type="index">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+          <filter class="solr.SynonymGraphFilterFactory" expand="true" ignoreCase="true" synonyms="synonyms.txt"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+  </fieldType>
+  <fieldType name="text_ignore_case" class="solr.TextField" positionIncrementGap="100" multiValued="true">
+      <analyzer type="index">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+          <tokenizer class="solr.StandardTokenizerFactory"/>
+          <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+  </fieldType>
+  
+  <field name="_nest_path_" type="_nest_path_"/>
+  <field name="_root_" type="uuid" docValues="false" indexed="true" stored="false"/>
+  <field name="_text_" type="text_general" indexed="true" stored="false"/>
+  <field name="_version_" type="plong" indexed="false" stored="false"/>
+  <field name="_review_" type="text_general" multiValued="true" indexed="true" stored="false"/>
+  
+  <field name="productID" type="text_ignore_case" multiValued="false" indexed="true" stored="true"/>
+  <field name="productName" type="text_en" multiValued="false" indexed="true" stored="true"/>
+  <field name="reviewSummary" type="text_general" multiValued="false" indexed="true" stored="true"/>
+  <field name="reviewBody" type="text_general" multiValued="false" indexed="true" stored="true"/>
+  <field name="reviewDate" type="pdate" multiValued="false" indexed="true" stored="true"/>
+  <field name="reviewScore" type="pint" multiValued="false" indexed="true" stored="true"/>
+  <field name="id" type="uuid" indexed="true" stored="true" required="true"/>
+  
+  <copyField source="reviewSummary" dest="_review_"/>
+  <copyField source="reviewBody" dest="_review_"/>
+</schema>
